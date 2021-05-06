@@ -11,11 +11,11 @@ struct FlujoNeto {
 
 int cantidadPersonas(string hora){
 
-    string tiempo1=hora[0]+hora[1];
-    string tiempo2=hora[3]+hora[4];
+    string tiempo1 = hora[0] + hora[1];
+    string tiempo2 = hora[3] + hora[4];
 
-    int time1 =//pasar tiempo 1 a int
-    int time2 =//pasar tiempo 2 a int
+    int time1 = stoi(tiempo1)//pasar tiempo 1 a int
+    int time2 = stoi(tiempo2)//pasar tiempo 2 a int
     /*
     Buscar manera de transformar de string a int para asi poder obtener con mas exactitud
     los valores que se necesitan cuando se pide de una hora especifica, ejemplo: 12:30,
@@ -33,8 +33,8 @@ int cantidadPersonas(string hora){
 int archivoBinario(string nombre){
 
     FlujoNeto fn; 
-    int personasB=0; //almacena las personas hasta esa hora del archivo binario.
-    ifstream binario;
+    int personasB = 0; //almacena las personas hasta esa hora del archivo binario.
+    fstream binario;
     binario.open(nombre, ios::in|ios::binary);
     if(!binario.is_open()){
         cerr << "Error al abrir el archivo\n";
@@ -42,9 +42,9 @@ int archivoBinario(string nombre){
     }
     //recorre el archivo, por los structs
     while(binario.read((char*)&fn, sizeof(FlujoNeto))){ //tomar los valores del archivo
-        if(fn.hora<=time1){ //revisa la hora
-            if(fn.minuto<=time2){ //revisa los minutos
-                personasB+=fn.personas; //suma las personas
+        if(fn.hora <= time1){ //revisa la hora
+            if(fn.minuto <= time2){ //revisa los minutos
+                personasB += fn.personas; //suma las personas
             }
         }
     }

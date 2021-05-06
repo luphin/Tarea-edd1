@@ -11,7 +11,7 @@ int main(){
     
     //ingresa un string hora y retorna un int cantidad de personas
     int resultado = cantidadPersonas(hora);
-    cout << "A las" << hora << "hay" << resultado << "personas." << endl; 
+    cout << "A las " << hora << " hay " << resultado << " personas." << endl; 
     
     return 0;
 }
