@@ -70,52 +70,57 @@ int archivoTexto(string nombre, int min){
     
     while(getline(texto, data)){
         string h, codigo ;//almacena la hora y rut en h y codigo respectivamente
-        char IS;//almacena 'E' o 'S'
+        char s=data[0];//almacena 'E' o 'S'
         bool flag = false;
-        for(int i = 0; i<data.length();i++){//con un for se recorre la linea del .txt que se leyo y se extraen los valores
-            if (i==0){
-                IS+=data[i]; //IS de ingreso y salida
+        int crono;
+
+        for(crono=2; crono<data.length();crono++){
+            if (data[crono]==' '){
+                break;
             }
-            if (1 < i && i< 11){
-                codigo+=data[i]; //codigo almacena rut de la persona
-            }
-            if (11< i){
-                h+=data[i]; // h almacena la hora y minutos
+            else{
+                codigo+=data[crono];
             }
         }
+        for(crono=data.length()-5;crono<data.length();crono++){
+            h+=data[crono];
+        }
         int cp=Conversion(h);
-        if(cp<=min){//entra solo si esta dentro de los rangos de hora
+        if(cp <= min){//entra solo si esta dentro de los rangos de hora
             if (contador == 0 ){//al no existir ningun valor en el array, entyonces agrega el primero y cambia contador(se le suma 1)
-                trabajadores[contador]= IS+codigo;
+                trabajadores[contador] = s+codigo;
                 contador+=1;
             }
             else{//ya existen valores en el array, entonces hay que revisar que el valor no este o si ya esta, verificarlo.
-                for(int x=0; x<contador; x++){
+                for(int x=0; x < contador; x++){
                     if(trabajadores[x].find(codigo)!= string::npos){//si el rut(almacenado en la variable codigo) esta dentro de alguna posicion del array
                         char pl = trabajadores[x][0];
-                        if(pl!=IS){//verifica si el trabajador esta o no dentro de la tienda, esto se verifica con la 'E' o 'S'.
-                            trabajadores[x]=IS+codigo;//Al ser diferente, se agrega la nueva, es  decir si se tenia 'E20...', ahora se va atener 'S20...' porque el sujeto salio del trabajo.
+                        if(pl!=s){//verifica si el trabajador esta o no dentro de la tienda, esto se verifica con la 'E' o 'S'.
+                            trabajadores[x]=s+codigo;//Al ser diferente, se agrega la nueva, es  decir si se tenia 'E20...', ahora se va atener 'S20...' porque el sujeto salio del trabajo.
                             flag=true;//cambia una variable para una futura condicional
                         }
                     }
                 }
                 if (flag==false){
                     //En el caso que no se encuentre dentro de los valores del array el rut de la persona, entonces se agrega a la ultima posicion del array que esta determinada con la variable contador
-                    trabajadores[contador]= IS+codigo;
+                    trabajadores[contador]= s+codigo;
                     contador+=1;
                 }
             }   
         }
-    }
-    int tjtotal=0; //variable que va a llevar la suma de cuantos trabajadores hay en la tienda, es decir que tengan una 'E' tbtoral=> trabajadores total
-    for(int c=0; c<contador; c++){ //itera dentro del array, solo hasta la distancia que tenga la variable contador
-        char crt= trabajadores[c][0];
-        char entrada = 'E';
-        if (crt==entrada){ // revisa si el valor en esa posicion, tiene en la posicion 0 una 'E', si es asi, se suma 1 a la variable tjtotal
-            tjtotal+=1;
+        else{
+            break;
         }
     }
     texto.close();
+    int tjtotal=0; //variable que va a llevar la suma de cuantos trabajadores hay en la tienda, es decir que tengan una 'E' tbtoral=> trabajadores total
+    for(int c=0; c < contador-1 ; c++){ //itera dentro del array, solo hasta la distancia que tenga la variable contador
+        char crt = trabajadores[c][0];
+        char entrada = 'E';
+        if (crt == entrada){ // revisa si el valor en esa posicion, tiene en la posicion 0 una 'E', si es asi, se suma 1 a la variable tjtotal
+            tjtotal+=1;
+        }
+    }
     return tjtotal;
 }
 
@@ -138,7 +143,6 @@ int main(){
     cout << "Ingrese la hora que desea examinar: ";
     cin >> hora;
 
-    cout<<hora<<endl;
     
     //ingresa un string hora y retorna un int cantidad de personas
     int resultado = cantidadPersonas(hora);
