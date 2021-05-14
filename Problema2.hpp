@@ -48,9 +48,9 @@ arr_extensible::arr_extensible(unsigned long n){
 * A[], "retorna" A definido como el arreglo de tamaño n, con
 * sus variables evaluadas en v
 *****/
-arr_extensible::arr_extensible(unsigned long n, int v);{
+arr_extensible::arr_extensible(unsigned long n, int v){
     A = new int[n];
-    for (int x = 0; x < i; i++){
+    for (int x = 0; x < n; x++){
         A[x] = v;
     };
 };
@@ -69,12 +69,12 @@ arr_extensible::arr_extensible(unsigned long n, int v);{
 *       Retorna True si i es menor que el tamaño de A
 *****/
 bool arr_extensible::setValue(unsigned long i, int v){
-    if (0 =< i < sizeof(A)){
+    if (int z = 0 <= i && i < sizeof(A)){
         A[i] = v;
         B[i] = v;
-        return True;
+        return true;
     } else {
-        return False;
+        return false;
     };
 };
 
@@ -90,7 +90,7 @@ bool arr_extensible::setValue(unsigned long i, int v){
 * A[i], Retorna el valor de A en la posición i
 *****/
 int arr_extensible::getValue(unsigned long i){
-    if (0 =< i < sizeof(A)){
+    if (int z = 0 <= i < sizeof(A)){
         return A[i];
     } else {
         cerr << "Error de acceso al arreglo" << endl;
@@ -135,7 +135,7 @@ void arr_extensible::append(int v){
 * void, Al ser una función del tipo void, no requiere return
 *****/
 void arr_extensible::remove(){
-    B = new int[sizeof(A) - 1]
+    B = new int[sizeof(A) - 1];
     for (int x = 0 ; x < sizeof(B) ; x++){
         B[x] = A[x];
     };
