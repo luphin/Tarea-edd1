@@ -1,5 +1,4 @@
 #include <iostream>
-//#include "Problema1.hpp"
 #include <string>
 #include <fstream>
 
@@ -147,10 +146,7 @@ int main(){
     //ingresa un string hora y retorna un int cantidad de personas
     int resultado = cantidadPersonas(hora);
     cout << "A las " << hora << " hay " << resultado << " personas." << endl; 
-    //int c1=archivoBinario("flujo-publico.dat", Conversion(hora));//Funciona esta funcion
-    //int c2=archivoTexto("asistencia.txt", Conversion(hora));
-    //cout<<c1;
-    //cout<<c2;
+
 
     return 0;
 }
