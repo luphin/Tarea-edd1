@@ -109,6 +109,7 @@ int archivoTexto(string nombre, int hora, int min){
             }   
         }
     }
+    texto.close();
     int tjtotal=0 //variable que va a llevar la suma de cuantos trabajadores hay en la tienda, es decir que tengan una 'E' tbtoral=> trabajadores total
     for(int cont=0; cont<contador; cont++){ //itera dentro del array, solo hasta la distancia que tenga la variable contador
         if (trabajadores[cont][0]=="E"){ // revisa si el valor en esa posicion, tiene en la posicion 0 una 'E', si es asi, se suma 1 a la variable tjtotal
