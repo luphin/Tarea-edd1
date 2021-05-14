@@ -3,49 +3,49 @@
 
 using namespace std;
 
-struct FlujoNeto {
-    int hora;
-    int minuto;
-    int personas;
-};
 
 int cantidadPersonas(string hora){
 
-    string tiempo1 = hora[0] + hora[1];
-    string tiempo2 = hora[3] + hora[4];
+    string x= ""; //almacena hora
+    string y= ""; //almcena minutos
 
-    int time1 = stoi(tiempo1)//pasar tiempo 1 a int
-    int time2 = stoi(tiempo2)//pasar tiempo 2 a int
-    /*
-    Buscar manera de transformar de string a int para asi poder obtener con mas exactitud
-    los valores que se necesitan cuando se pide de una hora especifica, ejemplo: 12:30,
-    que tambien se cuenten las personas que estan a esa hora en la tienda, o si nos dan 
-    las 12:39.
-    */
-    int dato1 = archivoBinario("flujo-publico.dat");
-    int dato2 = archivoTexto("asistencia.txt");
+    for(int i=0; i<hora.length(); i++){
+        if (i<2){
+            x+=hora[i];
+        }
+        if (i>2){
+            y+=hora[i];
+        }
+    }
+
+    int time1 = stoi(x)//pasar x a int
+    int time2 = stoi(y)//pasar y a int
+
+    int dato1 = archivoBinario("flujo-publico.dat", time1, time2);
+    int dato2 = archivoTexto("asistencia.txt", time1, time2);
 
 
     return dato1 + dato2;
 }
 
 
-int archivoBinario(string nombre){
+int archivoBinario(string nombre, int hora, int min){
 
-    FlujoNeto fn; 
-    int personasB = 0; //almacena las personas hasta esa hora del archivo binario.
-    fstream binario;
+    int n, i;
+    FlujoNeto Aux;
+    fstream binario; 
+    int personasB; //almacena las personas hasta esa hora del archivo binario.
+    
     binario.open(nombre, ios::in|ios::binary);
     if(!binario.is_open()){
         cerr << "Error al abrir el archivo\n";
-        return 1; //Error al abrir archivo
+        exit(1); //Error al abrir archivo
     }
-    //recorre el archivo, por los structs
-    while(binario.read((char*)&fn, sizeof(FlujoNeto))){ //tomar los valores del archivo
-        if(fn.hora <= time1){ //revisa la hora
-            if(fn.minuto <= time2){ //revisa los minutos
-                personasB += fn.personas; //suma las personas
-            }
+
+
+    while(binario.read((char*)&Aux, sizeof(FlujoNeto))){//lee linea por linea del archivo binario
+        if(Aux.hora<=hora && Aux.minutos <= min){ //si esta dentro del rango de horas los valores del struc, se suma la cantidad a la variable personasB
+            personasB+=Aux.personas;
         }
     }
     binario.close();
@@ -53,36 +53,67 @@ int archivoBinario(string nombre){
     return personasB;
 }
 
-int archivoTexto(string nombre){
+int archivoTexto(string nombre, int hora, int min){
 
-    int trabajadores[];
+    string trabajadores[100]; //se abre un array para almacena 100n valores, si en algun punto estan todos los trabajadores en el local
     string data;//alamacena los datos
+    int contador=0;//lleva la cuenat de los datos dentro del array, es una variable global
 
     ifstream texto;
-    texto.open(nombre);
+    texto.open(nombre,ios::in);
 
     if(!texto.is_open()){
         cerr << "Error al abrir el archivo\n";
-        return 1; //Error al abrir archivo  
+        exit(1); //Error al abrir archivo  
     }
-
+    
     while(getline(texto, data)){
-        /*
-        Buscar manera de almacenar datos, en si los cod de rut de las personas, para
-        asi ir agregando y quitando, al final obtener el tamano y retornarlo.
-        --no se pueden ocupar vectores
-
-        Se necesita la hora en int, para saber si la persona pertenece a la hora o no.
-        --no utilizar metodos no visto en clases: System (Int32.Parse(string)), 
-        sstream (istringstream(string)) 
-
-        Se podria buscar un metodo para que cuando se lea el archivo solo se lea hasta
-        la ultima linea que tiene la hora solicitada.
-
-        Al tener esas dos cosas el problema estaria termiando. 
-
-        
-        */
+        string h = "";//almacena la hora
+        string m = "";//almacena los minutos
+        string IS = "";//almacena 'E' o 'S'
+        string codigo = "";//almacena el rut del trabajador
+        bool flag = false;
+        for(int i = 0; i<data.lenght();i++){//con un for se recorre la linea del .txt que se leyo y se extraen los valores
+            if (i==0){
+                IS+=data[i]; //IS de ingreso y salida
+            }
+            if (1 < i && i< 11){
+                codigo+=data[i]; //codigo almacena rut de la persona
+            }
+            if (11< i && i< 14){
+                h+=data[i]; // h almacena la hora
+            }
+            if (14<i){
+                m+=data[i]; // m almacena la m
+            }
+        }
+        if(stoi(h)<=hora && stoi(m)<=min){//entra solo si esta dentro de los rangos de hora
+            if (contador == 0 ){//al no existir ningun valor en el array, entyonces agrega el primero y cambia contador(se le suma 1)
+                trabajadores[contador]= IS+codigo;
+                contado+=1;
+            }
+            else{//ya existen valores en el array, entonces hay que revisar que el valor no este o si ya esta, verificarlo.
+                for(int x=0; x<contador; x++){
+                    if(trabajadores[x].find(codigo)!= string::npos){//si el rut(almacenado en la variable codigo) esta dentro de alguna posicion del array
+                        if(trabajadores[x][0]!=IS){//verifica si el trabajador esta o no dentro de la tienda, esto se verifica con la 'E' o 'S'.
+                            tarbajadores[x]=IS+codigo;//Al ser diferente, se agrega la nueva, es  decir si se tenia 'E20...', ahora se va atener 'S20...' porque el sujeto salio del trabajo.
+                            flag=true;//cambia una variable para una futura condicional
+                        }
+                    }
+                }
+                if (flag==false){
+                    //En el caso que no se encuentre dentro de los valores del array el rut de la persona, entonces se agrega a la ultima posicion del array que esta determinada con la variable contador
+                    trabajadores[contador]= IS+codigo;
+                    contado+=1;
+                }
+            }   
+        }
     }
-    return ;
+    int tjtotal=0 //variable que va a llevar la suma de cuantos trabajadores hay en la tienda, es decir que tengan una 'E' tbtoral=> trabajadores total
+    for(int cont=0; cont<contador; cont++){ //itera dentro del array, solo hasta la distancia que tenga la variable contador
+        if (trabajadores[cont][0]=="E"){ // revisa si el valor en esa posicion, tiene en la posicion 0 una 'E', si es asi, se suma 1 a la variable tjtotal
+            tjtotal+=1;
+        }
+    }
+    return tjtotal ;
 }
