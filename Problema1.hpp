@@ -4,30 +4,6 @@
 using namespace std;
 
 
-int cantidadPersonas(string hora){
-
-    string x= ""; //almacena hora
-    string y= ""; //almcena minutos
-
-    for(int i=0; i<hora.length(); i++){
-        if (i<2){
-            x+=hora[i];
-        }
-        if (i>2){
-            y+=hora[i];
-        }
-    }
-
-    int time1 = stoi(x)//pasar x a int
-    int time2 = stoi(y)//pasar y a int
-
-    int dato1 = archivoBinario("flujo-publico.dat", time1, time2);
-    int dato2 = archivoTexto("asistencia.txt", time1, time2);
-
-
-    return dato1 + dato2;
-}
-
 
 int archivoBinario(string nombre, int hora, int min){
 
@@ -90,13 +66,13 @@ int archivoTexto(string nombre, int hora, int min){
         if(stoi(h)<=hora && stoi(m)<=min){//entra solo si esta dentro de los rangos de hora
             if (contador == 0 ){//al no existir ningun valor en el array, entyonces agrega el primero y cambia contador(se le suma 1)
                 trabajadores[contador]= IS+codigo;
-                contado+=1;
+                contador+=1;
             }
             else{//ya existen valores en el array, entonces hay que revisar que el valor no este o si ya esta, verificarlo.
                 for(int x=0; x<contador; x++){
                     if(trabajadores[x].find(codigo)!= string::npos){//si el rut(almacenado en la variable codigo) esta dentro de alguna posicion del array
                         if(trabajadores[x][0]!=IS){//verifica si el trabajador esta o no dentro de la tienda, esto se verifica con la 'E' o 'S'.
-                            tarbajadores[x]=IS+codigo;//Al ser diferente, se agrega la nueva, es  decir si se tenia 'E20...', ahora se va atener 'S20...' porque el sujeto salio del trabajo.
+                            trabajadores[x]=IS+codigo;//Al ser diferente, se agrega la nueva, es  decir si se tenia 'E20...', ahora se va atener 'S20...' porque el sujeto salio del trabajo.
                             flag=true;//cambia una variable para una futura condicional
                         }
                     }
@@ -104,7 +80,7 @@ int archivoTexto(string nombre, int hora, int min){
                 if (flag==false){
                     //En el caso que no se encuentre dentro de los valores del array el rut de la persona, entonces se agrega a la ultima posicion del array que esta determinada con la variable contador
                     trabajadores[contador]= IS+codigo;
-                    contado+=1;
+                    contador+=1;
                 }
             }   
         }
@@ -116,5 +92,29 @@ int archivoTexto(string nombre, int hora, int min){
             tjtotal+=1;
         }
     }
-    return tjtotal ;
+    return tjtotal
+}
+
+int cantidadPersonas(string hora){
+
+    string x= ""; //almacena hora
+    string y= ""; //almcena minutos
+
+    for(int i=0; i<hora.length(); i++){
+        if (i<2){
+            x+=hora[i];
+        }
+        if (i>2){
+            y+=hora[i];
+        }
+    }
+
+    int time1 = stoi(x);//pasar x a int
+    int time2 = stoi(y);//pasar y a int
+
+    int dato1 = archivoBinario("flujo-publico.dat", time1, time2);
+    int dato2 = archivoTexto("asistencia.txt", time1, time2);
+
+
+    return dato1 + dato2;
 }

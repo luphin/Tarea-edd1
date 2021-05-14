@@ -3,11 +3,17 @@
 
 using namespace std;
 
+struct FlujoNeto {
+    int hora;
+    int minuto;
+    int personas;
+};
+
 int main(){
     string hora;
 
     cout << "Ingrese la hora que desea examinar:";
-    cint >> hora;
+    cin >> hora;
     
     //ingresa un string hora y retorna un int cantidad de personas
     int resultado = cantidadPersonas(hora);
