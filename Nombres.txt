@@ -1,4 +1,16 @@
 Integrantes del Grupo
-1.
-2.
-3.Luis Zegarra - Programo y oriento la problematica para resolver el problema 1.
+
+1.Nombre:
+    Rol:
+    Paralelo:
+    Aporte:
+
+2.Nombre:
+    Rol:
+    Paralelo:
+    Aporte:
+
+3.Nombre:Luis Zegarra 
+    Rol:202073628-6
+    Paralelo: 203
+    Aporte: Programo y oriento la problematica para resolver el problema 1.
