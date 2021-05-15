@@ -5,10 +5,10 @@ Integrantes del Grupo
     Paralelo:
     Aporte:
 
-2.Nombre:
-    Rol:
-    Paralelo:
-    Aporte:
+2.Nombre:Andrés Puelles
+    Rol:202073607-3
+    Paralelo:201
+    Aporte: Corrección y prueba de funciones.
 
 3.Nombre:Luis Zegarra 
     Rol:202073628-6

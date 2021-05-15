@@ -15,7 +15,7 @@ int Conversion(string hora){//pasa la hora a minutos.
     string x= ""; //almacena hora
     string y= ""; //almcena minutos
 
-    for(int i=0; i<hora.length(); i++){
+    for(long unsigned i=0; i<hora.length(); i++){
         if (i<2){
             x+=hora[i];
         }
@@ -32,7 +32,7 @@ int Conversion(string hora){//pasa la hora a minutos.
 }
 
 int archivoBinario(string nombre, int min){
-    int n, i;
+    //int n, i;
     FlujoNeto Aux;
     fstream binario; 
     int personasB=0; //almacena las personas hasta esa hora del archivo binario.
@@ -71,7 +71,7 @@ int archivoTexto(string nombre, int min){
         string h, codigo ;//almacena la hora y rut en h y codigo respectivamente
         char s=data[0];//almacena 'E' o 'S'
         bool flag = false;
-        int crono;
+        long unsigned crono;
 
         for(crono=2; crono<data.length();crono++){
             if (data[crono]==' '){
