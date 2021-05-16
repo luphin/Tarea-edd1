@@ -173,11 +173,9 @@ int archivoTexto(string nombre, int min){
                         char pl = trabajadores[x][0];
                         if(pl!=s){                                  //verifica si el trabajador esta o no dentro de la tienda, esto se verifica con la 'E' o 'S'.
                             trabajadores[x]=s+codigo;               //Al ser diferente, se agrega la nueva, es  decir si se tenia 'E20...', ahora se va atener 'S20...' porque el sujeto salio del trabajo.
-                            flag=true;                              //cambia una variable para una futura condicional
                         }
-                        else{
-                            flag=true;
-                        }
+                        flag=true;                                  //cambia una variable para una futura condicional
+                        
                     }
                 }
                 if (flag==false){
