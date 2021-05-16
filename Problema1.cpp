@@ -93,7 +93,7 @@ int archivoBinario(string nombre, int min){
 /*****
 * int archivoTexto
 ******
-* Abre el archivo txt, recorre las lineas del mismo y separa los valores, para asi ocuparlos al hacer comparaciones, 
+* Abre el archivo txt dos veces, una para saber cuantos trabajadores hay en la empresa, y otra, recorre las lineas del mismo y separa los valores, para asi ocuparlos al hacer comparaciones, 
 * se agregan los s(va a tener el caracter'E'o'S') + codigo(rut de los trabajdores), en el caso que no este en el Array, se agrega en un aposicion que esta determinanda
 * por una variable. Si el valor ya estaba pero,  junto al rut este una 'E' y la nueva linea tenga una 'S', entonces la cambia.
 ******
@@ -109,25 +109,48 @@ int archivoBinario(string nombre, int min){
 
 int archivoTexto(string nombre, int min){
 
-    string trabajadores[100];           //se abre un array para almacena 100n valores, si en algun punto estan todos los trabajadores en el local
-    string data;                        //alamacena los datos
-    int contador=0;                     //lleva la cuenat de los datos dentro del array, es una variable global
+    string *trabajadores;                                           //Puntero a Array 
+    string data;                                                    //alamacena los datos
+    int contador=0;                                                 //lleva la cuenat de los datos dentro del array, es una variable global
 
     ifstream texto;
     texto.open(nombre,ios::in);
 
-    if(!texto.is_open()){
+    ifstream text;
+    text.open(nombre,ios::in);
+
+    if(!texto.is_open() && !text.is_open()){
         cerr << "Error al abrir el archivo\n";
-        exit(1);                        //Error al abrir archivo  
+        exit(1);                                                    //Error al abrir archivo  
     }
-    
-    while(getline(texto, data)){
-        string h, codigo ;              //almacena la hora y rut en h y codigo respectivamente
-        char s=data[0];                 //almacena 'E' o 'S'
+
+    int numero_trabajadores=0; 
+    string total;
+    while(getline(texto, data)){                                    //Recorre las lineas del archivo txt
+        long unsigned cont;
+        string codigo;
+        for(cont=2; cont<data.length();cont++){                     //Busca la informacion del rut de la persona dentro del string
+            if (data[cont]==' '){
+                break;
+            }
+            else{
+                codigo+=data[cont];
+            }
+        }
+        if(total.find(codigo)== string::npos){                      //busca el rut dentro de un string, si no esta, lo agrega
+            total+= " " + codigo;
+            numero_trabajadores+=1;
+        }
+    }
+    trabajadores= new string[numero_trabajadores];                  //crea un array con tamano numero_trabajadores
+
+    while(getline(text, data)){
+        string h, codigo ;                                          //almacena la hora y rut en h y codigo respectivamente
+        char s=data[0];                                             //almacena 'E' o 'S'
         bool flag = false;
         long unsigned crono;
 
-        for(crono=2; crono<data.length();crono++){
+        for(crono=2; crono<data.length();crono++){                  //busca el rut de la persona y lo almacena en codigo
             if (data[crono]==' '){
                 break;
             }
@@ -135,12 +158,12 @@ int archivoTexto(string nombre, int min){
                 codigo+=data[crono];
             }
         }
-        for(crono=data.length()-5;crono<data.length();crono++){
+        for(crono=data.length()-5;crono<data.length();crono++){     //almacena la hora dentro del string
             h+=data[crono];
         }
         int cp=Conversion(h);
-        if(cp <= min){                                                //entra solo si esta dentro de los rangos de hora
-            if (contador == 0 ){                                     //al no existir ningun valor en el array, entyonces agrega el primero y cambia contador(se le suma 1)
+        if(cp <= min){                                              //entra solo si esta dentro de los rangos de hora
+            if (contador == 0 ){                                    //al no existir ningun valor en el array, entonces agrega el primero y cambia contador(se le suma 1)
                 trabajadores[contador] = s+codigo;
                 contador+=1;
             }
@@ -166,14 +189,17 @@ int archivoTexto(string nombre, int min){
         }
     }
     texto.close();
-    int tjtotal=0;                      //variable que va a llevar la suma de cuantos trabajadores hay en la tienda, es decir que tengan una 'E' tbtoral=> trabajadores total
-    for(int c=0; c < contador-1 ; c++){ //itera dentro del array, solo hasta la distancia que tenga la variable contador
+    text.close();
+
+    int tjtotal=0;                                                   //variable que va a llevar la suma de cuantos trabajadores hay en la tienda, es decir que tengan una 'E' tbtoral=> trabajadores total
+    for(int c=0; c < contador-1 ; c++){                              //itera dentro del array, solo hasta la distancia que tenga la variable contador
         char crt = trabajadores[c][0];
         char entrada = 'E';
-        if (crt == entrada){            // revisa si el valor en esa posicion, tiene en la posicion 0 una 'E', si es asi, se suma 1 a la variable tjtotal
+        if (crt == entrada){                                         // revisa si el valor en esa posicion, tiene en la posicion 0 una 'E', si es asi, se suma 1 a la variable tjtotal
             tjtotal+=1;
         }
     }
+    delete [] trabajadores;
     return tjtotal;
 }
 
@@ -210,9 +236,9 @@ int main(){
     cout << "Ingrese la hora que desea examinar(formato hora hh:mm): ";
     cin >> hora;
 
-    
     //ingresa un string hora y retorna un int cantidad de personas
     int resultado = cantidadPersonas(hora);
+
     cout << "A las " << hora << " hay " << resultado << " personas." << endl; 
 
 
