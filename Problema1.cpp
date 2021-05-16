@@ -240,8 +240,8 @@ int main(){
     //ingresa un string hora y retorna un int cantidad de personas
     int resultado = cantidadPersonas(hora);
 
-    cout <<archivoTexto("asistencia.txt", Conversion(hora)) <<endl;
-    cout<< archivoBinario("flujo-publico.dat", Conversion(hora))<<endl;
+    //cout <<archivoTexto("asistencia.txt", Conversion(hora)) <<endl;
+    //cout<< archivoBinario("flujo-publico.dat", Conversion(hora))<<endl;
     cout << "A las " << hora << " hay " << resultado << " personas." << endl; 
 
 
