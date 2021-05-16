@@ -110,6 +110,7 @@ int archivoBinario(string nombre, int min){
 int archivoTexto(string nombre, int min){
 
     string *trabajadores;                                           //Puntero a Array 
+    //string trabajadores[100];
     string data;                                                    //alamacena los datos
     int contador=0;                                                 //lleva la cuenat de los datos dentro del array, es una variable global
 
@@ -119,7 +120,7 @@ int archivoTexto(string nombre, int min){
     ifstream text;
     text.open(nombre,ios::in);
 
-    if(!texto.is_open() && !text.is_open()){
+    if(!texto.is_open()){
         cerr << "Error al abrir el archivo\n";
         exit(1);                                                    //Error al abrir archivo  
     }
@@ -149,7 +150,6 @@ int archivoTexto(string nombre, int min){
         char s=data[0];                                             //almacena 'E' o 'S'
         bool flag = false;
         long unsigned crono;
-
         for(crono=2; crono<data.length();crono++){                  //busca el rut de la persona y lo almacena en codigo
             if (data[crono]==' '){
                 break;
@@ -175,6 +175,9 @@ int archivoTexto(string nombre, int min){
                             trabajadores[x]=s+codigo;               //Al ser diferente, se agrega la nueva, es  decir si se tenia 'E20...', ahora se va atener 'S20...' porque el sujeto salio del trabajo.
                             flag=true;                              //cambia una variable para una futura condicional
                         }
+                        else{
+                            flag=true;
+                        }
                     }
                 }
                 if (flag==false){
@@ -182,7 +185,7 @@ int archivoTexto(string nombre, int min){
                     trabajadores[contador]= s+codigo;
                     contador+=1;
                 }
-            }   
+            } 
         }
         else{
             break;
@@ -239,6 +242,8 @@ int main(){
     //ingresa un string hora y retorna un int cantidad de personas
     int resultado = cantidadPersonas(hora);
 
+    //cout <<archivoTexto("asistencia.txt", Conversion(hora)) <<endl;
+    //cout<< archivoBinario("flujo-publico.dat", Conversion(hora))<<endl;
     cout << "A las " << hora << " hay " << resultado << " personas." << endl; 
 
 
