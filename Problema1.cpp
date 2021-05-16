@@ -193,7 +193,7 @@ int archivoTexto(string nombre, int min){
     text.close();
 
     int tjtotal=0;                                                   //variable que va a llevar la suma de cuantos trabajadores hay en la tienda, es decir que tengan una 'E' tbtoral=> trabajadores total
-    for(int c=0; c < contador-1 ; c++){                              //itera dentro del array, solo hasta la distancia que tenga la variable contador
+    for(int c=0; c < contador ; c++){                              //itera dentro del array, solo hasta la distancia que tenga la variable contador
         char crt = trabajadores[c][0];
         char entrada = 'E';
         if (crt == entrada){                                         // revisa si el valor en esa posicion, tiene en la posicion 0 una 'E', si es asi, se suma 1 a la variable tjtotal
@@ -240,8 +240,8 @@ int main(){
     //ingresa un string hora y retorna un int cantidad de personas
     int resultado = cantidadPersonas(hora);
 
-    //cout <<archivoTexto("asistencia.txt", Conversion(hora)) <<endl;
-    //cout<< archivoBinario("flujo-publico.dat", Conversion(hora))<<endl;
+    cout <<archivoTexto("asistencia.txt", Conversion(hora)) <<endl;
+    cout<< archivoBinario("flujo-publico.dat", Conversion(hora))<<endl;
     cout << "A las " << hora << " hay " << resultado << " personas." << endl; 
 
 
